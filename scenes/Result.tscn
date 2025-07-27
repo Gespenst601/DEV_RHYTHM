@@ -1,0 +1,43 @@
+[gd_scene load_steps=3 format=3 uid="uid://c5pkcyryxjfx5"]
+
+[ext_resource type="Script" uid="uid://882qy7lahokt" path="res://scripts/result.gd" id="1_n8ln0"]
+[ext_resource type="FontFile" uid="uid://bg853ddmcspu6" path="res://fonts/Corporate-Logo-Rounded-Bold-ver3.woff" id="2_5m3t6"]
+
+[node name="Result" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_n8ln0")
+
+[node name="Bg" type="Sprite2D" parent="."]
+
+[node name="BgRect" type="TextureRect" parent="."]
+z_index = -10
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+alignment = 1
+
+[node name="TitleLbl" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_5m3t6")
+theme_override_font_sizes/font_size = 48
+
+[node name="RankLbl" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_5m3t6")
+theme_override_font_sizes/font_size = 96
+
+[node name="ScoreLbl" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_5m3t6")
+theme_override_font_sizes/font_size = 36
+
+[node name="CommentLbl" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_5m3t6")
+theme_override_font_sizes/font_size = 28

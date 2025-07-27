@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://bex7u3ycbu86u"]
+
+[ext_resource type="PackedScene" uid="uid://ggxfl4wlotb" path="res://rhythm/Note.tscn" id="1_swgp0"]
+
+[node name="Note" instance=ExtResource("1_swgp0")]

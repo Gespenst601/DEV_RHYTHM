@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://c4pes4nrkgmxo"]
+
+[ext_resource type="Script" uid="uid://cokoitwbp5qsg" path="res://scripts/hit_effect.gd" id="1_1elm0"]
+
+[sub_resource type="CurveTexture" id="CurveTexture_1elm0"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1elm0"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 118.2
+initial_velocity_min = 400.0
+initial_velocity_max = 800.0
+gravity = Vector3(0, 0, 0)
+scale_min = 7.23
+scale_max = 7.23
+scale_over_velocity_max = 49.84
+color = Color(0.710694, 0.982457, 0.609599, 1)
+alpha_curve = SubResource("CurveTexture_1elm0")
+
+[node name="HitEffect" type="Node2D"]
+script = ExtResource("1_1elm0")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 390
+lifetime = 0.22
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_1elm0")
