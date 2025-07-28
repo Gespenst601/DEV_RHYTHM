@@ -17,6 +17,8 @@ enum GameState { INTRO, PLAYING, FINISHED }
 @onready var score_label    : Label           = $ScoreLabel
 @onready var ready_label    : Label           = $CenterContainer/ReadyLabel
 @onready var judge_label    : Label           = $CenterContainer/JudgeLabel
+# デバッグ表示用ラベル
+@onready var debug_label: Label = $DebugLabel 
 
 var judge_tween : Tween
 var state: GameState = GameState.INTRO
@@ -49,6 +51,12 @@ func _ready() -> void:
 
 	# カウントダウン
 	_start_countdown()
+	
+	# デバッグラベルの設定
+	if debug_label:
+		debug_label.position = Vector2(20, 200)
+		debug_label.size = Vector2(400, 200)
+		debug_label.modulate = Color.YELLOW
 
 #──────────────────────────────────────
 ## 入力受付（PLAYING 中のみ）
@@ -106,6 +114,9 @@ func _begin_play() -> void:
 func _process(delta: float) -> void:
 	if state == GameState.PLAYING and not audio_player.playing:
 		_go_result()
+		
+	# デバッグ情報更新
+	_update_debug_info()
 
 #──────────────────────────────────────
 ## 判定シグナル
@@ -202,3 +213,39 @@ func _center_pivot(label: Label) -> void:
 	var size := label.get_minimum_size()
 	label.pivot_offset = size / 2.0
 	
+
+
+func _update_debug_info() -> void:
+	if not debug_label:
+		return
+		
+	var debug_text = ""
+	debug_text += "Time: %.1f ms\n" % conductor.get_time_ms()
+	debug_text += "State: %s\n" % GameState.keys()[state]
+	
+	# アクティブなホールドノーツの情報
+	var hold_notes = []
+	for child in note_spawner.get_children():
+		if child is HoldNote and not child.judged:
+			hold_notes.append(child)
+	
+	debug_text += "Active Hold Notes: %d\n" % hold_notes.size()
+	
+	for i in range(min(3, hold_notes.size())):  # 最大3個まで表示
+		var note = hold_notes[i]
+		debug_text += "  Note %d: Lane %s, Hit %.1f ms\n" % [i, str(note.lane), note.hit_time_ms]
+		debug_text += "    Head judged: %s, Holding: %s\n" % [note._head_judged, note._holding]
+	
+	debug_label.text = debug_text
+
+# キー入力状態の可視化
+func _show_input_state() -> void:
+	var inputs = []
+	for i in range(4):
+		if Input.is_action_pressed("lane%d" % i):
+			inputs.append(str(i))
+	if Input.is_action_pressed("special"):
+		inputs.append("SP")
+	
+	if inputs.size() > 0:
+		print("Pressed: ", inputs.join(", "))
